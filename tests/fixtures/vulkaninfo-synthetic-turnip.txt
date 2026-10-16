@@ -1,0 +1,69 @@
+# SYNTHETIC: hand-written in vulkaninfo's text layout for parser tests.
+# Values are illustrative, not captured from a real device.
+==========
+VULKANINFO
+==========
+
+Vulkan Instance Version: 1.4.318
+
+Device Properties and Extensions:
+=================================
+GPU0:
+VkPhysicalDeviceProperties:
+---------------------------
+	apiVersion        = 1.4.318 (4210990)
+	driverVersion     = 25.3.0 (104869888)
+	vendorID          = 0x5143
+	deviceID          = 0x43051401
+	deviceType        = PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
+	deviceName        = Turnip Adreno (TM) 750
+
+VkPhysicalDeviceLimits:
+-----------------------
+	maxComputeSharedMemorySize                      = 32768
+
+VkPhysicalDeviceDriverProperties:
+---------------------------------
+	driverID           = DRIVER_ID_MESA_TURNIP
+	driverName         = turnip Mesa driver
+	driverInfo         = Mesa 25.3.0-devel (git-1a2b3c4d5e)
+
+VkPhysicalDeviceShaderIntegerDotProductProperties:
+--------------------------------------------------
+	integerDotProduct8BitSignedAccelerated                       = false
+	integerDotProduct4x8BitPackedUnsignedAccelerated             = true
+	integerDotProduct4x8BitPackedSignedAccelerated               = false
+	integerDotProduct4x8BitPackedMixedSignednessAccelerated      = false
+
+VkPhysicalDeviceSubgroupProperties:
+-----------------------------------
+	subgroupSize              = 128
+
+VkPhysicalDeviceSubgroupSizeControlProperties:
+----------------------------------------------
+	minSubgroupSize              = 64
+	maxSubgroupSize              = 128
+
+Device Extensions: count = 3
+----------------------------
+	VK_EXT_subgroup_size_control      : extension revision 2
+	VK_KHR_shader_float16_int8        : extension revision 1
+	VK_KHR_shader_integer_dot_product : extension revision 1
+
+VkPhysicalDeviceFeatures:
+-------------------------
+	shaderInt16 = true
+
+VkPhysicalDeviceShaderFloat16Int8Features:
+------------------------------------------
+	shaderFloat16 = true
+	shaderInt8    = true
+
+VkPhysicalDeviceShaderIntegerDotProductFeatures:
+------------------------------------------------
+	shaderIntegerDotProduct = true
+
+VkPhysicalDeviceSubgroupSizeControlFeatures:
+--------------------------------------------
+	subgroupSizeControl  = true
+	computeFullSubgroups = true

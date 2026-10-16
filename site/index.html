@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>snapbench results</title>
+<meta name="description" content="Local LLM speed on Snapdragon devices across llama.cpp backends: CPU, OpenCL, Vulkan, Hexagon. Open data (CC0).">
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #1d1d1b; --muted: #6b6b66; --line: #e4e3df; --card: #ffffff;
+    --accent: #0b6e4f; --best: #e3f3ec; --warn-bg: #fff4d6; --warn-fg: #6b4e00; --bad: #a33a2b;
+    --chip: #f0efeb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141413; --fg: #ecebe6; --muted: #9d9c95; --line: #2f2e2b; --card: #1c1c1a;
+      --accent: #5fd3a5; --best: #183a2d; --warn-bg: #3a2f10; --warn-fg: #f3d27a; --bad: #f08a78;
+      --chip: #262624;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.01em; }
+  h2 { font-size: 19px; margin: 0; }
+  a { color: var(--accent); }
+  .lede { color: var(--muted); max-width: 70ch; margin: 0 0 20px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin: 0 0 20px;
+         font-size: 14px; color: var(--muted); }
+  .bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; color: var(--fg); }
+  select { font: inherit; padding: 2px 6px; background: var(--card); color: var(--fg);
+           border: 1px solid var(--line); border-radius: 6px; }
+  .banner { background: var(--warn-bg); color: var(--warn-fg); border-radius: 8px; padding: 10px 14px;
+            margin: 0 0 20px; font-size: 14px; }
+  .device { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+            padding: 18px 18px 8px; margin: 0 0 22px; }
+  .device.sample { border-style: dashed; }
+  .device-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; }
+  .sub { color: var(--muted); font-size: 13px; }
+  .result { margin: 14px 0 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; }
+  .chip { background: var(--chip); border-radius: 999px; padding: 2px 10px; font-size: 12.5px; white-space: nowrap; }
+  .chip.sample { background: var(--warn-bg); color: var(--warn-fg); font-weight: 600; }
+  .chip.no { color: var(--bad); }
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; }
+  th, td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+  th { font-weight: 600; font-size: 12.5px; color: var(--muted); }
+  th.group { text-align: center; color: var(--fg); border-bottom: 2px solid var(--line); }
+  th.group.off { color: var(--muted); font-weight: 400; }
+  td.label, th.label { text-align: left; }
+  td.best { background: var(--best); font-weight: 650; }
+  td.fail { color: var(--bad); font-size: 12.5px; }
+  td.na { color: var(--muted); }
+  .sd { color: var(--muted); font-size: 11.5px; margin-left: 2px; }
+  details { margin: 6px 0 4px; font-size: 13px; color: var(--muted); }
+  details pre { white-space: pre-wrap; word-break: break-word; font-size: 12px; background: var(--chip);
+                padding: 8px; border-radius: 6px; color: var(--fg); }
+  footer { margin-top: 40px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .empty { color: var(--muted); padding: 30px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>snapbench</h1>
+  <p class="lede">How fast do local LLMs run on Snapdragon phones and laptops, and which llama.cpp backend wins?
+    Every result runs the same pinned llama.cpp build, the same models and quants, and records which GPU driver
+    was active. Numbers are tokens per second: <b>pp512</b> is reading a 512-token prompt,
+    <b>tg128</b> is generating 128 tokens. Higher is better; the fastest backend in each row is highlighted.</p>
+
+  <div class="bar">
+    <label><input type="checkbox" id="samples"> Show sample data</label>
+    <label>OS <select id="os"><option value="">all</option></select></label>
+    <label>Test <select id="test"><option value="both">pp512 and tg128</option><option value="pp512">pp512 only</option><option value="tg128">tg128 only</option></select></label>
+    <span id="count"></span>
+  </div>
+  <div id="banner"></div>
+  <div id="out"><p class="empty">Loading results…</p></div>
+
+  <footer>
+    Results are open data under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>;
+    the code is MIT. Raw files: <a href="https://github.com/everyai-com/snapbench/tree/main/results">results/</a>.
+    Have a Snapdragon device? <a href="https://github.com/everyai-com/snapbench#contribute-a-run">Contribute a run</a>.
+  </footer>
+</main>
+<script>
+const BACKENDS = ["cpu", "opencl", "vulkan", "hexagon"];
+const BACKEND_LABEL = { cpu: "CPU", opencl: "OpenCL (Adreno)", vulkan: "Vulkan", hexagon: "Hexagon NPU" };
+const MODEL_LABEL = { "llama-3.2-1b": "Llama 3.2 1B", "llama-3.2-3b": "Llama 3.2 3B", "qwen3-4b": "Qwen3 4B" };
+const MODEL_ORDER = Object.keys(MODEL_LABEL);
+const REPO = "https://github.com/everyai-com/snapbench/blob/main/";
+let DATA = [];
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = (v) => v >= 100 ? v.toFixed(0) : v >= 10 ? v.toFixed(1) : v.toFixed(2);
+
+function deviceKey(r) {
+  return [r.provenance === "sample" ? "sample" : "real", r.soc.part, r.device.manufacturer, r.device.model, r.platform.os].join("|");
+}
+
+function vulkanChips(r) {
+  const out = [];
+  for (const g of r.vulkan || []) {
+    if (g.device_type === "PHYSICAL_DEVICE_TYPE_CPU") continue;
+    const kind = { turnip: "Turnip", qualcomm: "Qualcomm", dozen: "Dozen" }[g.driver_kind] || g.driver_name || "unknown";
+    const ver = g.driver_kind === "turnip" ? (g.mesa_version ? "Mesa " + g.mesa_version : "") : (g.driver_version || "");
+    out.push(`<span class="chip">Vulkan driver: ${esc(kind)} ${esc(ver)}</span>`);
+    const dot = g.int_dot?.int8_packed_signed_accelerated;
+    out.push(`<span class="chip ${dot ? "" : "no"}">int8 dot accelerated: ${dot == null ? "?" : dot ? "yes" : "no"}</span>`);
+    const cm = g.cooperative_matrix?.extension;
+    out.push(`<span class="chip ${cm ? "" : "no"}">cooperative matrix: ${cm ? "yes" : "no"}</span>`);
+    if (g.subgroup?.size) out.push(`<span class="chip">subgroup ${g.subgroup.size}${g.subgroup.min ? ` (${g.subgroup.min}–${g.subgroup.max})` : ""}</span>`);
+  }
+  const vkInfo = r.backends.vulkan?.info?.vulkan?.[0];
+  if (!(r.vulkan || []).length && vkInfo) {
+    out.push(`<span class="chip">Vulkan: ${esc(vkInfo.driver_name)} · int dot ${esc(vkInfo.int_dot)} · matrix cores ${esc(vkInfo.matrix_cores)}</span>`);
+  }
+  const cl = r.backends.opencl?.info?.opencl;
+  if (cl?.driver) out.push(`<span class="chip">OpenCL: ${esc(cl.driver)}</span>`);
+  return out.join("");
+}
+
+function resultTable(r, testFilter) {
+  const tests = testFilter === "both" ? ["pp512", "tg128"] : [testFilter];
+  const cols = BACKENDS.filter((b) => r.backends[b] || r.runs.some((x) => x.backend === b));
+  const byKey = {};
+  for (const run of r.runs) byKey[`${run.model}|${run.quant}|${run.backend}`] = run;
+  const rows = [];
+  const pairs = [];
+  for (const m of MODEL_ORDER) for (const q of ["Q4_0", "Q8_0"]) {
+    if (r.runs.some((x) => x.model === m && x.quant === q)) pairs.push([m, q]);
+  }
+  let head1 = `<tr><th class="label" rowspan="2">Model</th><th class="label" rowspan="2">Quant</th>`;
+  let head2 = "<tr>";
+  for (const b of cols) {
+    const rec = r.backends[b] || {};
+    const off = rec.status && rec.status !== "ok";
+    const title = off ? `${rec.status}: ${rec.reason || ""}` : (rec.device ? `llama-bench -dev ${rec.device}` : "");
+    head1 += `<th class="group ${off ? "off" : ""}" colspan="${tests.length}" title="${esc(title)}">${BACKEND_LABEL[b]}${off ? ` (${esc(rec.status)})` : ""}</th>`;
+    for (const t of tests) head2 += `<th>${t}</th>`;
+  }
+  head1 += "</tr>"; head2 += "</tr>";
+  for (const [m, q] of pairs) {
+    const best = {};
+    for (const t of tests) {
+      best[t] = Math.max(0, ...cols.map((b) => byKey[`${m}|${q}|${b}`]?.tests?.[t]?.[0] || 0));
+    }
+    let tr = `<tr><td class="label">${esc(MODEL_LABEL[m] || m)}</td><td class="label">${esc(q)}</td>`;
+    for (const b of cols) {
+      const run = byKey[`${m}|${q}|${b}`];
+      for (const t of tests) {
+        const v = run?.tests?.[t];
+        if (v) {
+          const isBest = cols.length > 1 && v[0] === best[t];
+          tr += `<td class="${isBest ? "best" : ""}" title="± ${v[1]} t/s">${fmt(v[0])}</td>`;
+        } else if (run && run.status === "failed") {
+          tr += `<td class="fail" title="${esc(run.error || "failed")}">failed</td>`;
+        } else {
+          tr += `<td class="na">–</td>`;
+        }
+      }
+    }
+    rows.push(tr + "</tr>");
+  }
+  return `<div class="scroll"><table><thead>${head1}${head2}</thead><tbody>${rows.join("")}</tbody></table></div>`;
+}
+
+function details(r) {
+  const lines = [];
+  for (const b of BACKENDS) {
+    const rec = r.backends[b];
+    if (!rec) continue;
+    lines.push(`${b}: ${rec.status}${rec.reason ? " — " + rec.reason : ""}${rec.device ? ` (device ${rec.device})` : ""}`);
+  }
+  const env = r.config.env && Object.keys(r.config.env).length ? "\nenv: " + JSON.stringify(r.config.env) : "";
+  const kinds = Object.entries(r.llama_cpp.kinds || {}).map(([b, k]) => `${b}=${k}`).join(", ");
+  return `<details><summary>Run details</summary><pre>${esc(lines.join("\n"))}
+llama.cpp ${esc(r.llama_cpp.tag)} ${esc(r.llama_cpp.commit.slice(0, 9))} (${esc(kinds)})
+threads ${r.config.threads}, ${r.config.repetitions} repetitions, ${r.config.full_matrix ? "full matrix" : "partial matrix"}${esc(env)}
+file: ${esc(r.file)}</pre></details>`;
+}
+
+function render() {
+  const showSamples = $("samples").checked;
+  const os = $("os").value;
+  const test = $("test").value;
+  const real = DATA.filter((r) => r.provenance === "measured");
+  const shown = DATA.filter((r) => (r.provenance === "measured" || (showSamples && r.provenance === "sample")) && (!os || r.platform.os === os));
+  $("count").textContent = `${real.length} real result${real.length === 1 ? "" : "s"}`;
+  $("banner").innerHTML = showSamples && DATA.some((r) => r.provenance === "sample")
+    ? `<div class="banner"><b>Sample data is shown.</b> Cards marked SAMPLE contain invented numbers that demonstrate this page. They were not measured on any device.${real.length ? "" : " There are no real results yet."}</div>`
+    : "";
+  if (!shown.length) {
+    $("out").innerHTML = `<p class="empty">No results to show yet. <a href="https://github.com/everyai-com/snapbench#contribute-a-run">Contribute the first run</a>, or tick “Show sample data” to preview the page.</p>`;
+    return;
+  }
+  const groups = new Map();
+  for (const r of shown) {
+    const k = deviceKey(r);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(r);
+  }
+  const html = [];
+  for (const [, rs] of groups) {
+    const r0 = rs[0];
+    const sample = r0.provenance === "sample";
+    const title = [r0.device.manufacturer, r0.device.model].filter(Boolean).join(" ") || "Unknown device";
+    html.push(`<section class="device ${sample ? "sample" : ""}">
+      <div class="device-head"><h2>${esc(title)}</h2>
+      <div class="sub">${esc(r0.soc.name || "")} ${r0.soc.part ? "(" + esc(r0.soc.part) + ")" : ""} · ${esc(r0.gpu || "GPU ?")} · ${esc(r0.platform.os)} ${esc(r0.platform.os_version || "")}</div></div>`);
+    for (const r of rs) {
+      html.push(`<div class="result"><div class="chips">
+        ${sample ? '<span class="chip sample">SAMPLE · not measured</span>' : ""}
+        <span class="chip">${esc(r.created_at.slice(0, 10))}</span>
+        ${vulkanChips(r)}
+        ${r.submitter ? `<span class="chip">by ${esc(r.submitter)}</span>` : ""}
+        <a class="chip" href="${REPO}${esc(r.file)}">JSON</a></div>
+        ${resultTable(r, test)}${details(r)}</div>`);
+    }
+    html.push("</section>");
+  }
+  $("out").innerHTML = html.join("");
+}
+
+async function main() {
+  const params = new URLSearchParams(location.search);
+  try {
+    const res = await fetch("data.json", { cache: "no-cache" });
+    DATA = (await res.json()).results || [];
+  } catch (e) {
+    $("out").innerHTML = `<p class="empty">Could not load data.json (${esc(e.message)}). Build it with <code>python3 -m snapbench build-site</code> and serve this folder over HTTP.</p>`;
+    return;
+  }
+  const hasReal = DATA.some((r) => r.provenance === "measured");
+  $("samples").checked = params.has("samples") ? params.get("samples") !== "0" : !hasReal;
+  for (const os of [...new Set(DATA.map((r) => r.platform.os))].sort()) {
+    $("os").insertAdjacentHTML("beforeend", `<option value="${esc(os)}">${esc(os)}</option>`);
+  }
+  for (const id of ["samples", "os", "test"]) $(id).addEventListener("change", render);
+  render();
+}
+main();
+</script>
+</body>
+</html>

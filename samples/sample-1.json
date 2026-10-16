@@ -1,0 +1,1046 @@
+{
+ "schema_version": 1,
+ "id": "00000000-0000-4000-8000-000000000001",
+ "provenance": "sample",
+ "created_at": "2026-10-11T12:00:00Z",
+ "tool": {
+  "name": "snapbench",
+  "version": "0.1.0",
+  "matrix_version": "2026.10"
+ },
+ "llama_cpp": {
+  "tag": "b11700",
+  "commit": "23f7aabc16c72f6f707dba227251c35d7bd1ed96",
+  "sources": {
+   "cpu": {
+    "kind": "release",
+    "bundle": "sample"
+   },
+   "opencl": {
+    "kind": "release",
+    "bundle": "sample"
+   },
+   "vulkan": {
+    "kind": "release",
+    "bundle": "sample"
+   },
+   "hexagon": {
+    "kind": "release",
+    "bundle": "sample"
+   }
+  }
+ },
+ "platform": {
+  "os": "android",
+  "os_version": "sample",
+  "arch": "aarch64",
+  "termux": true
+ },
+ "device": {
+  "manufacturer": "SAMPLE",
+  "model": "Sample phone A (Qualcomm driver)"
+ },
+ "soc": {
+  "part": "SM8650",
+  "name": "Snapdragon 8 Gen 3",
+  "is_snapdragon": true
+ },
+ "cpu": {
+  "name": null,
+  "cores": 8
+ },
+ "gpu": {
+  "name": "Adreno 750"
+ },
+ "memory_mb": 12000,
+ "vulkaninfo": {
+  "available": true,
+  "error": null,
+  "gpus": [
+   {
+    "index": 0,
+    "device_name": "Adreno (TM) 750",
+    "device_type": "PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU",
+    "driver_id": "DRIVER_ID_QUALCOMM_PROPRIETARY",
+    "driver_name": "Qualcomm Technologies Inc. Adreno Vulkan Driver",
+    "driver_info": "Driver Build: sample",
+    "driver_version": "512.819.0",
+    "api_version": "1.4.318",
+    "driver_kind": "qualcomm",
+    "mesa_version": null,
+    "int_dot": {
+     "shader_integer_dot_product": true,
+     "int8_packed_signed_accelerated": true,
+     "int8_packed_unsigned_accelerated": true,
+     "int8_packed_mixed_accelerated": true
+    },
+    "cooperative_matrix": {
+     "extension": true,
+     "feature": true
+    },
+    "subgroup": {
+     "size": 64,
+     "min": 64,
+     "max": 128,
+     "size_control": true
+    },
+    "extensions": {
+     "VK_KHR_shader_integer_dot_product": 1
+    }
+   }
+  ]
+ },
+ "backends": {
+  "cpu": {
+   "status": "ok",
+   "reason": null,
+   "device": "none"
+  },
+  "opencl": {
+   "status": "ok",
+   "reason": null,
+   "device": "GPUOpenCL"
+  },
+  "vulkan": {
+   "status": "ok",
+   "reason": null,
+   "device": "Vulkan0"
+  },
+  "hexagon": {
+   "status": "ok",
+   "reason": null,
+   "device": "HTP0"
+  }
+ },
+ "config": {
+  "n_prompt": 512,
+  "n_gen": 128,
+  "repetitions": 5,
+  "threads": 6,
+  "gpu_layers": 99,
+  "cooldown_s": 20,
+  "full_matrix": true,
+  "env": {}
+ },
+ "runs": [
+  {
+   "backend": "cpu",
+   "model": "llama-3.2-1b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q4_0.gguf",
+   "model_sha256": "fa0390e7c043f89ae1847bd6682d748041a99d4ef3de0e0b27d33b6af97a8be8",
+   "status": "ok",
+   "error": null,
+   "duration_s": 73.4,
+   "before": {
+    "max_temp_c": 34.0
+   },
+   "after": {
+    "max_temp_c": 50.2
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 113.86,
+     "stddev_ts": 2.28,
+     "samples_ts": [
+      115.44,
+      115.06,
+      112.74,
+      113.84,
+      113.63
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 28.59,
+     "stddev_ts": 0.57,
+     "samples_ts": [
+      28.92,
+      28.13,
+      28.05,
+      28.98,
+      28.52
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "llama-3.2-1b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q4_0.gguf",
+   "model_sha256": "fa0390e7c043f89ae1847bd6682d748041a99d4ef3de0e0b27d33b6af97a8be8",
+   "status": "ok",
+   "error": null,
+   "duration_s": 35.5,
+   "before": {
+    "max_temp_c": 36.6
+   },
+   "after": {
+    "max_temp_c": 50.9
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 97.95,
+     "stddev_ts": 1.96,
+     "samples_ts": [
+      96.88,
+      99.69,
+      99.52,
+      96.11,
+      96.09
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 16.09,
+     "stddev_ts": 0.32,
+     "samples_ts": [
+      16.38,
+      16.02,
+      15.91,
+      16.04,
+      15.79
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "vulkan",
+   "model": "llama-3.2-1b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q4_0.gguf",
+   "model_sha256": "fa0390e7c043f89ae1847bd6682d748041a99d4ef3de0e0b27d33b6af97a8be8",
+   "status": "ok",
+   "error": null,
+   "duration_s": 28.5,
+   "before": {
+    "max_temp_c": 36.0
+   },
+   "after": {
+    "max_temp_c": 54.1
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 57.76,
+     "stddev_ts": 1.16,
+     "samples_ts": [
+      57.14,
+      57.11,
+      57.66,
+      57.27,
+      56.65
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 12.57,
+     "stddev_ts": 0.25,
+     "samples_ts": [
+      12.6,
+      12.64,
+      12.41,
+      12.81,
+      12.75
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "hexagon",
+   "model": "llama-3.2-1b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q4_0.gguf",
+   "model_sha256": "fa0390e7c043f89ae1847bd6682d748041a99d4ef3de0e0b27d33b6af97a8be8",
+   "status": "ok",
+   "error": null,
+   "duration_s": 37.0,
+   "before": {
+    "max_temp_c": 38.8
+   },
+   "after": {
+    "max_temp_c": 49.8
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 154.44,
+     "stddev_ts": 3.09,
+     "samples_ts": [
+      157.13,
+      153.95,
+      156.47,
+      155.49,
+      153.22
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 22.27,
+     "stddev_ts": 0.45,
+     "samples_ts": [
+      22.61,
+      22.58,
+      22.27,
+      22.35,
+      21.86
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "cpu",
+   "model": "llama-3.2-1b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q8_0.gguf",
+   "model_sha256": "432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3",
+   "status": "ok",
+   "error": null,
+   "duration_s": 23.0,
+   "before": {
+    "max_temp_c": 38.2
+   },
+   "after": {
+    "max_temp_c": 57.8
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 114.51,
+     "stddev_ts": 2.29,
+     "samples_ts": [
+      114.73,
+      115.44,
+      115.31,
+      113.93,
+      114.23
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 17.38,
+     "stddev_ts": 0.35,
+     "samples_ts": [
+      17.57,
+      17.4,
+      17.31,
+      17.37,
+      17.05
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "llama-3.2-1b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q8_0.gguf",
+   "model_sha256": "432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3",
+   "status": "ok",
+   "error": null,
+   "duration_s": 52.1,
+   "before": {
+    "max_temp_c": 35.6
+   },
+   "after": {
+    "max_temp_c": 51.7
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 96.24,
+     "stddev_ts": 1.92,
+     "samples_ts": [
+      95.83,
+      94.97,
+      96.25,
+      98.1,
+      97.28
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 9.98,
+     "stddev_ts": 0.2,
+     "samples_ts": [
+      10.12,
+      9.87,
+      9.98,
+      10.16,
+      10.01
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "vulkan",
+   "model": "llama-3.2-1b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q8_0.gguf",
+   "model_sha256": "432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3",
+   "status": "ok",
+   "error": null,
+   "duration_s": 59.9,
+   "before": {
+    "max_temp_c": 35.2
+   },
+   "after": {
+    "max_temp_c": 51.1
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 63.84,
+     "stddev_ts": 1.28,
+     "samples_ts": [
+      62.58,
+      64.56,
+      64.66,
+      64.83,
+      64.45
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 7.76,
+     "stddev_ts": 0.16,
+     "samples_ts": [
+      7.77,
+      7.78,
+      7.74,
+      7.62,
+      7.88
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "hexagon",
+   "model": "llama-3.2-1b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q8_0.gguf",
+   "model_sha256": "432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3",
+   "status": "failed",
+   "error": "llama-bench exited with 1 (sample)",
+   "duration_s": 3.0,
+   "tests": []
+  },
+  {
+   "backend": "cpu",
+   "model": "llama-3.2-3b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q4_0.gguf",
+   "model_sha256": "4d491003bf6b470e4d04233824c5c939b76d6c81974ba17a3ff207343e1d8e85",
+   "status": "ok",
+   "error": null,
+   "duration_s": 75.9,
+   "before": {
+    "max_temp_c": 38.8
+   },
+   "after": {
+    "max_temp_c": 55.4
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 46.06,
+     "stddev_ts": 0.92,
+     "samples_ts": [
+      45.79,
+      45.77,
+      46.13,
+      46.28,
+      46.26
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 10.71,
+     "stddev_ts": 0.21,
+     "samples_ts": [
+      10.5,
+      10.59,
+      10.57,
+      10.74,
+      10.86
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "llama-3.2-3b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q4_0.gguf",
+   "model_sha256": "4d491003bf6b470e4d04233824c5c939b76d6c81974ba17a3ff207343e1d8e85",
+   "status": "ok",
+   "error": null,
+   "duration_s": 31.2,
+   "before": {
+    "max_temp_c": 37.2
+   },
+   "after": {
+    "max_temp_c": 46.4
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 35.29,
+     "stddev_ts": 0.71,
+     "samples_ts": [
+      35.77,
+      35.53,
+      34.7,
+      34.6,
+      34.6
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 6.37,
+     "stddev_ts": 0.13,
+     "samples_ts": [
+      6.31,
+      6.27,
+      6.41,
+      6.33,
+      6.26
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "vulkan",
+   "model": "llama-3.2-3b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q4_0.gguf",
+   "model_sha256": "4d491003bf6b470e4d04233824c5c939b76d6c81974ba17a3ff207343e1d8e85",
+   "status": "ok",
+   "error": null,
+   "duration_s": 34.6,
+   "before": {
+    "max_temp_c": 37.6
+   },
+   "after": {
+    "max_temp_c": 55.4
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 22.34,
+     "stddev_ts": 0.45,
+     "samples_ts": [
+      22.53,
+      22.3,
+      22.18,
+      22.32,
+      21.92
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 4.54,
+     "stddev_ts": 0.09,
+     "samples_ts": [
+      4.53,
+      4.49,
+      4.47,
+      4.61,
+      4.54
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "hexagon",
+   "model": "llama-3.2-3b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q4_0.gguf",
+   "model_sha256": "4d491003bf6b470e4d04233824c5c939b76d6c81974ba17a3ff207343e1d8e85",
+   "status": "ok",
+   "error": null,
+   "duration_s": 35.6,
+   "before": {
+    "max_temp_c": 37.9
+   },
+   "after": {
+    "max_temp_c": 49.5
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 53.82,
+     "stddev_ts": 1.08,
+     "samples_ts": [
+      52.78,
+      53.06,
+      54.29,
+      53.09,
+      54.26
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 8.67,
+     "stddev_ts": 0.17,
+     "samples_ts": [
+      8.69,
+      8.58,
+      8.84,
+      8.78,
+      8.68
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "cpu",
+   "model": "llama-3.2-3b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q8_0.gguf",
+   "model_sha256": "b5607b5090a8280063fff2d706bb3408ca6542341b06aab39c3eca0a28575921",
+   "status": "ok",
+   "error": null,
+   "duration_s": 49.1,
+   "before": {
+    "max_temp_c": 35.5
+   },
+   "after": {
+    "max_temp_c": 44.1
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 46.64,
+     "stddev_ts": 0.93,
+     "samples_ts": [
+      46.31,
+      46.89,
+      45.82,
+      46.27,
+      47.52
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 7.03,
+     "stddev_ts": 0.14,
+     "samples_ts": [
+      6.97,
+      7.13,
+      6.97,
+      7.15,
+      7.1
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "llama-3.2-3b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q8_0.gguf",
+   "model_sha256": "b5607b5090a8280063fff2d706bb3408ca6542341b06aab39c3eca0a28575921",
+   "status": "ok",
+   "error": null,
+   "duration_s": 34.4,
+   "before": {
+    "max_temp_c": 38.0
+   },
+   "after": {
+    "max_temp_c": 50.1
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 38.48,
+     "stddev_ts": 0.77,
+     "samples_ts": [
+      37.76,
+      38.97,
+      39.19,
+      38.58,
+      37.97
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 4.01,
+     "stddev_ts": 0.08,
+     "samples_ts": [
+      4.09,
+      4.04,
+      4.01,
+      3.99,
+      3.99
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "vulkan",
+   "model": "llama-3.2-3b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q8_0.gguf",
+   "model_sha256": "b5607b5090a8280063fff2d706bb3408ca6542341b06aab39c3eca0a28575921",
+   "status": "ok",
+   "error": null,
+   "duration_s": 74.8,
+   "before": {
+    "max_temp_c": 36.0
+   },
+   "after": {
+    "max_temp_c": 47.0
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 22.09,
+     "stddev_ts": 0.44,
+     "samples_ts": [
+      21.74,
+      22.24,
+      21.91,
+      22.09,
+      21.93
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 3.01,
+     "stddev_ts": 0.06,
+     "samples_ts": [
+      3.06,
+      2.95,
+      2.97,
+      2.99,
+      3.07
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "hexagon",
+   "model": "llama-3.2-3b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q8_0.gguf",
+   "model_sha256": "b5607b5090a8280063fff2d706bb3408ca6542341b06aab39c3eca0a28575921",
+   "status": "failed",
+   "error": "llama-bench exited with 1 (sample)",
+   "duration_s": 3.0,
+   "tests": []
+  },
+  {
+   "backend": "cpu",
+   "model": "qwen3-4b",
+   "quant": "Q4_0",
+   "model_file": "Qwen_Qwen3-4B-Q4_0.gguf",
+   "model_sha256": "003e104a544c3cdb008db07acb07b8f6feeb62e50c4eca3cfff14fc59e62e5b7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 83.8,
+   "before": {
+    "max_temp_c": 35.3
+   },
+   "after": {
+    "max_temp_c": 54.6
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 36.16,
+     "stddev_ts": 0.72,
+     "samples_ts": [
+      36.64,
+      36.78,
+      35.93,
+      36.71,
+      36.43
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 8.22,
+     "stddev_ts": 0.16,
+     "samples_ts": [
+      8.38,
+      8.13,
+      8.29,
+      8.08,
+      8.11
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "qwen3-4b",
+   "quant": "Q4_0",
+   "model_file": "Qwen_Qwen3-4B-Q4_0.gguf",
+   "model_sha256": "003e104a544c3cdb008db07acb07b8f6feeb62e50c4eca3cfff14fc59e62e5b7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 22.7,
+   "before": {
+    "max_temp_c": 34.4
+   },
+   "after": {
+    "max_temp_c": 56.1
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 28.33,
+     "stddev_ts": 0.57,
+     "samples_ts": [
+      28.72,
+      28.18,
+      28.15,
+      28.1,
+      28.75
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 4.77,
+     "stddev_ts": 0.1,
+     "samples_ts": [
+      4.86,
+      4.85,
+      4.7,
+      4.78,
+      4.7
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "vulkan",
+   "model": "qwen3-4b",
+   "quant": "Q4_0",
+   "model_file": "Qwen_Qwen3-4B-Q4_0.gguf",
+   "model_sha256": "003e104a544c3cdb008db07acb07b8f6feeb62e50c4eca3cfff14fc59e62e5b7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 84.8,
+   "before": {
+    "max_temp_c": 36.7
+   },
+   "after": {
+    "max_temp_c": 47.9
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 18.36,
+     "stddev_ts": 0.37,
+     "samples_ts": [
+      18.6,
+      18.24,
+      18.44,
+      18.57,
+      18.27
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 3.56,
+     "stddev_ts": 0.07,
+     "samples_ts": [
+      3.52,
+      3.5,
+      3.53,
+      3.62,
+      3.57
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "hexagon",
+   "model": "qwen3-4b",
+   "quant": "Q4_0",
+   "model_file": "Qwen_Qwen3-4B-Q4_0.gguf",
+   "model_sha256": "003e104a544c3cdb008db07acb07b8f6feeb62e50c4eca3cfff14fc59e62e5b7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 31.7,
+   "before": {
+    "max_temp_c": 35.4
+   },
+   "after": {
+    "max_temp_c": 54.4
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 45.89,
+     "stddev_ts": 0.92,
+     "samples_ts": [
+      46.49,
+      45.0,
+      46.2,
+      45.14,
+      45.18
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 6.82,
+     "stddev_ts": 0.14,
+     "samples_ts": [
+      6.69,
+      6.75,
+      6.95,
+      6.8,
+      6.71
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "cpu",
+   "model": "qwen3-4b",
+   "quant": "Q8_0",
+   "model_file": "Qwen_Qwen3-4B-Q8_0.gguf",
+   "model_sha256": "4050871d20fa939e88e83b1a86060061bdeff01e0d9e5d000d374766f0caf7d7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 88.8,
+   "before": {
+    "max_temp_c": 35.8
+   },
+   "after": {
+    "max_temp_c": 52.4
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 33.33,
+     "stddev_ts": 0.67,
+     "samples_ts": [
+      33.88,
+      33.17,
+      33.96,
+      33.88,
+      33.06
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 4.93,
+     "stddev_ts": 0.1,
+     "samples_ts": [
+      4.93,
+      4.85,
+      4.96,
+      4.84,
+      4.83
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "qwen3-4b",
+   "quant": "Q8_0",
+   "model_file": "Qwen_Qwen3-4B-Q8_0.gguf",
+   "model_sha256": "4050871d20fa939e88e83b1a86060061bdeff01e0d9e5d000d374766f0caf7d7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 66.3,
+   "before": {
+    "max_temp_c": 35.6
+   },
+   "after": {
+    "max_temp_c": 51.6
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 27.74,
+     "stddev_ts": 0.55,
+     "samples_ts": [
+      27.54,
+      27.26,
+      28.2,
+      28.27,
+      28.27
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 2.76,
+     "stddev_ts": 0.06,
+     "samples_ts": [
+      2.73,
+      2.77,
+      2.81,
+      2.76,
+      2.78
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "vulkan",
+   "model": "qwen3-4b",
+   "quant": "Q8_0",
+   "model_file": "Qwen_Qwen3-4B-Q8_0.gguf",
+   "model_sha256": "4050871d20fa939e88e83b1a86060061bdeff01e0d9e5d000d374766f0caf7d7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 42.2,
+   "before": {
+    "max_temp_c": 39.1
+   },
+   "after": {
+    "max_temp_c": 56.5
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 17.17,
+     "stddev_ts": 0.34,
+     "samples_ts": [
+      17.0,
+      16.88,
+      17.02,
+      17.5,
+      17.14
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 2.23,
+     "stddev_ts": 0.04,
+     "samples_ts": [
+      2.25,
+      2.27,
+      2.23,
+      2.22,
+      2.22
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "hexagon",
+   "model": "qwen3-4b",
+   "quant": "Q8_0",
+   "model_file": "Qwen_Qwen3-4B-Q8_0.gguf",
+   "model_sha256": "4050871d20fa939e88e83b1a86060061bdeff01e0d9e5d000d374766f0caf7d7",
+   "status": "failed",
+   "error": "llama-bench exited with 1 (sample)",
+   "duration_s": 3.0,
+   "tests": []
+  }
+ ],
+ "submitter": {
+  "github": null,
+  "notes": "SAMPLE DATA. Hand-made to demo the results page. These numbers were not measured on any device."
+ }
+}

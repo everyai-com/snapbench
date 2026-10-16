@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+/snapbench-*.json
+*.json.tmp
+.venv/
+/site/data.json

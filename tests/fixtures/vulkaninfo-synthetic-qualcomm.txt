@@ -1,0 +1,55 @@
+# SYNTHETIC: hand-written in vulkaninfo's text layout for parser tests.
+# Values are illustrative, not captured from a real device.
+Device Properties and Extensions:
+=================================
+GPU0:
+VkPhysicalDeviceProperties:
+---------------------------
+	apiVersion        = 1.3.284 (4206876)
+	driverVersion     = 512.819.0 (2150829056)
+	vendorID          = 0x5143
+	deviceID          = 0x43051401
+	deviceType        = PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
+	deviceName        = Adreno (TM) 750
+
+VkPhysicalDeviceDriverProperties:
+---------------------------------
+	driverID           = DRIVER_ID_QUALCOMM_PROPRIETARY
+	driverName         = Qualcomm Technologies Inc. Adreno Vulkan Driver
+	driverInfo         = Driver Build: abc, 0123456789, 1700000000
+
+VkPhysicalDeviceShaderIntegerDotProductProperties:
+--------------------------------------------------
+	integerDotProduct4x8BitPackedUnsignedAccelerated             = true
+	integerDotProduct4x8BitPackedSignedAccelerated               = true
+	integerDotProduct4x8BitPackedMixedSignednessAccelerated      = true
+
+VkPhysicalDeviceSubgroupProperties:
+-----------------------------------
+	subgroupSize              = 64
+
+Device Extensions: count = 2
+----------------------------
+	VK_KHR_cooperative_matrix         : extension revision 2
+	VK_KHR_shader_integer_dot_product : extension revision 1
+
+VkPhysicalDeviceCooperativeMatrixFeaturesKHR:
+---------------------------------------------
+	cooperativeMatrix                   = true
+	cooperativeMatrixRobustBufferAccess = false
+
+VkPhysicalDeviceShaderIntegerDotProductFeatures:
+------------------------------------------------
+	shaderIntegerDotProduct = true
+
+GPU1:
+VkPhysicalDeviceProperties:
+---------------------------
+	deviceName        = llvmpipe (LLVM 19.1.0, 128 bits)
+	deviceType        = PHYSICAL_DEVICE_TYPE_CPU
+
+VkPhysicalDeviceDriverProperties:
+---------------------------------
+	driverID           = DRIVER_ID_MESA_LLVMPIPE
+	driverName         = llvmpipe
+	driverInfo         = Mesa 24.2.8

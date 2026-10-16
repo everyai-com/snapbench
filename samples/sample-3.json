@@ -1,0 +1,589 @@
+{
+ "schema_version": 1,
+ "id": "00000000-0000-4000-8000-000000000003",
+ "provenance": "sample",
+ "created_at": "2026-10-13T12:00:00Z",
+ "tool": {
+  "name": "snapbench",
+  "version": "0.1.0",
+  "matrix_version": "2026.10"
+ },
+ "llama_cpp": {
+  "tag": "b11700",
+  "commit": "23f7aabc16c72f6f707dba227251c35d7bd1ed96",
+  "sources": {
+   "cpu": {
+    "kind": "release",
+    "bundle": "sample"
+   },
+   "opencl": {
+    "kind": "release",
+    "bundle": "sample"
+   }
+  }
+ },
+ "platform": {
+  "os": "windows",
+  "os_version": "sample",
+  "arch": "aarch64",
+  "termux": false
+ },
+ "device": {
+  "manufacturer": "SAMPLE",
+  "model": "Sample laptop B"
+ },
+ "soc": {
+  "part": "X1E78100",
+  "name": "Snapdragon X Elite",
+  "is_snapdragon": true
+ },
+ "cpu": {
+  "name": null,
+  "cores": 8
+ },
+ "gpu": {
+  "name": "Adreno X1-85"
+ },
+ "memory_mb": 12000,
+ "vulkaninfo": {
+  "available": false,
+  "error": "vulkaninfo not installed",
+  "gpus": []
+ },
+ "backends": {
+  "cpu": {
+   "status": "ok",
+   "reason": null,
+   "device": "none"
+  },
+  "opencl": {
+   "status": "ok",
+   "reason": null,
+   "device": "GPUOpenCL"
+  },
+  "vulkan": {
+   "status": "unavailable",
+   "reason": "sample: backend not available"
+  }
+ },
+ "config": {
+  "n_prompt": 512,
+  "n_gen": 128,
+  "repetitions": 5,
+  "threads": 6,
+  "gpu_layers": 99,
+  "cooldown_s": 20,
+  "full_matrix": true,
+  "env": {}
+ },
+ "runs": [
+  {
+   "backend": "cpu",
+   "model": "llama-3.2-1b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q4_0.gguf",
+   "model_sha256": "fa0390e7c043f89ae1847bd6682d748041a99d4ef3de0e0b27d33b6af97a8be8",
+   "status": "ok",
+   "error": null,
+   "duration_s": 78.6,
+   "before": {
+    "max_temp_c": 36.9
+   },
+   "after": {
+    "max_temp_c": 52.9
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 231.2,
+     "stddev_ts": 4.62,
+     "samples_ts": [
+      231.6,
+      229.99,
+      232.16,
+      232.36,
+      227.18
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 37.27,
+     "stddev_ts": 0.75,
+     "samples_ts": [
+      37.78,
+      36.91,
+      36.88,
+      38.01,
+      37.23
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "llama-3.2-1b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q4_0.gguf",
+   "model_sha256": "fa0390e7c043f89ae1847bd6682d748041a99d4ef3de0e0b27d33b6af97a8be8",
+   "status": "ok",
+   "error": null,
+   "duration_s": 53.1,
+   "before": {
+    "max_temp_c": 38.3
+   },
+   "after": {
+    "max_temp_c": 56.3
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 123.64,
+     "stddev_ts": 2.47,
+     "samples_ts": [
+      124.31,
+      125.46,
+      123.76,
+      124.83,
+      124.49
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 20.66,
+     "stddev_ts": 0.41,
+     "samples_ts": [
+      20.87,
+      20.73,
+      20.49,
+      20.27,
+      20.96
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "cpu",
+   "model": "llama-3.2-1b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q8_0.gguf",
+   "model_sha256": "432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3",
+   "status": "ok",
+   "error": null,
+   "duration_s": 63.9,
+   "before": {
+    "max_temp_c": 35.8
+   },
+   "after": {
+    "max_temp_c": 51.1
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 247.19,
+     "stddev_ts": 4.94,
+     "samples_ts": [
+      251.36,
+      246.16,
+      250.17,
+      246.65,
+      251.5
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 26.12,
+     "stddev_ts": 0.52,
+     "samples_ts": [
+      25.69,
+      25.74,
+      25.82,
+      26.6,
+      26.05
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "llama-3.2-1b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-1B-Instruct-Q8_0.gguf",
+   "model_sha256": "432f310a77f4650a88d0fd59ecdd7cebed8d684bafea53cbff0473542964f0c3",
+   "status": "ok",
+   "error": null,
+   "duration_s": 87.5,
+   "before": {
+    "max_temp_c": 39.4
+   },
+   "after": {
+    "max_temp_c": 52.0
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 127.92,
+     "stddev_ts": 2.56,
+     "samples_ts": [
+      127.16,
+      128.36,
+      128.35,
+      129.99,
+      128.85
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 14.46,
+     "stddev_ts": 0.29,
+     "samples_ts": [
+      14.67,
+      14.74,
+      14.56,
+      14.26,
+      14.67
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "cpu",
+   "model": "llama-3.2-3b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q4_0.gguf",
+   "model_sha256": "4d491003bf6b470e4d04233824c5c939b76d6c81974ba17a3ff207343e1d8e85",
+   "status": "ok",
+   "error": null,
+   "duration_s": 40.6,
+   "before": {
+    "max_temp_c": 38.6
+   },
+   "after": {
+    "max_temp_c": 56.2
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 95.07,
+     "stddev_ts": 1.9,
+     "samples_ts": [
+      93.97,
+      96.33,
+      95.35,
+      94.25,
+      93.41
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 16.15,
+     "stddev_ts": 0.32,
+     "samples_ts": [
+      16.46,
+      15.88,
+      16.34,
+      16.09,
+      15.92
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "llama-3.2-3b",
+   "quant": "Q4_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q4_0.gguf",
+   "model_sha256": "4d491003bf6b470e4d04233824c5c939b76d6c81974ba17a3ff207343e1d8e85",
+   "status": "ok",
+   "error": null,
+   "duration_s": 22.2,
+   "before": {
+    "max_temp_c": 35.2
+   },
+   "after": {
+    "max_temp_c": 49.7
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 46.81,
+     "stddev_ts": 0.94,
+     "samples_ts": [
+      47.02,
+      45.96,
+      47.22,
+      46.49,
+      47.52
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 9.03,
+     "stddev_ts": 0.18,
+     "samples_ts": [
+      9.03,
+      9.21,
+      8.96,
+      8.88,
+      9.07
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "cpu",
+   "model": "llama-3.2-3b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q8_0.gguf",
+   "model_sha256": "b5607b5090a8280063fff2d706bb3408ca6542341b06aab39c3eca0a28575921",
+   "status": "ok",
+   "error": null,
+   "duration_s": 59.1,
+   "before": {
+    "max_temp_c": 37.7
+   },
+   "after": {
+    "max_temp_c": 57.2
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 93.74,
+     "stddev_ts": 1.87,
+     "samples_ts": [
+      92.45,
+      92.02,
+      95.11,
+      93.04,
+      95.45
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 10.07,
+     "stddev_ts": 0.2,
+     "samples_ts": [
+      10.02,
+      10.05,
+      10.08,
+      10.13,
+      10.11
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "llama-3.2-3b",
+   "quant": "Q8_0",
+   "model_file": "Llama-3.2-3B-Instruct-Q8_0.gguf",
+   "model_sha256": "b5607b5090a8280063fff2d706bb3408ca6542341b06aab39c3eca0a28575921",
+   "status": "ok",
+   "error": null,
+   "duration_s": 63.1,
+   "before": {
+    "max_temp_c": 37.8
+   },
+   "after": {
+    "max_temp_c": 44.8
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 50.05,
+     "stddev_ts": 1.0,
+     "samples_ts": [
+      49.91,
+      50.49,
+      49.52,
+      49.65,
+      51.01
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 5.26,
+     "stddev_ts": 0.11,
+     "samples_ts": [
+      5.27,
+      5.16,
+      5.24,
+      5.28,
+      5.16
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "cpu",
+   "model": "qwen3-4b",
+   "quant": "Q4_0",
+   "model_file": "Qwen_Qwen3-4B-Q4_0.gguf",
+   "model_sha256": "003e104a544c3cdb008db07acb07b8f6feeb62e50c4eca3cfff14fc59e62e5b7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 61.5,
+   "before": {
+    "max_temp_c": 35.9
+   },
+   "after": {
+    "max_temp_c": 49.1
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 71.85,
+     "stddev_ts": 1.44,
+     "samples_ts": [
+      71.75,
+      72.36,
+      71.42,
+      72.44,
+      72.53
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 10.98,
+     "stddev_ts": 0.22,
+     "samples_ts": [
+      10.78,
+      11.06,
+      11.18,
+      10.87,
+      10.96
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "qwen3-4b",
+   "quant": "Q4_0",
+   "model_file": "Qwen_Qwen3-4B-Q4_0.gguf",
+   "model_sha256": "003e104a544c3cdb008db07acb07b8f6feeb62e50c4eca3cfff14fc59e62e5b7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 36.7,
+   "before": {
+    "max_temp_c": 35.1
+   },
+   "after": {
+    "max_temp_c": 50.1
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 37.23,
+     "stddev_ts": 0.74,
+     "samples_ts": [
+      37.04,
+      37.37,
+      36.94,
+      37.05,
+      37.64
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 6.04,
+     "stddev_ts": 0.12,
+     "samples_ts": [
+      6.06,
+      6.1,
+      6.0,
+      5.97,
+      6.12
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "cpu",
+   "model": "qwen3-4b",
+   "quant": "Q8_0",
+   "model_file": "Qwen_Qwen3-4B-Q8_0.gguf",
+   "model_sha256": "4050871d20fa939e88e83b1a86060061bdeff01e0d9e5d000d374766f0caf7d7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 35.8,
+   "before": {
+    "max_temp_c": 34.7
+   },
+   "after": {
+    "max_temp_c": 51.4
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 72.55,
+     "stddev_ts": 1.45,
+     "samples_ts": [
+      71.39,
+      72.03,
+      72.06,
+      73.51,
+      72.37
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 7.66,
+     "stddev_ts": 0.15,
+     "samples_ts": [
+      7.56,
+      7.61,
+      7.7,
+      7.78,
+      7.64
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "opencl",
+   "model": "qwen3-4b",
+   "quant": "Q8_0",
+   "model_file": "Qwen_Qwen3-4B-Q8_0.gguf",
+   "model_sha256": "4050871d20fa939e88e83b1a86060061bdeff01e0d9e5d000d374766f0caf7d7",
+   "status": "ok",
+   "error": null,
+   "duration_s": 39.0,
+   "before": {
+    "max_temp_c": 36.1
+   },
+   "after": {
+    "max_temp_c": 49.8
+   },
+   "tests": [
+    {
+     "test": "pp512",
+     "avg_ts": 36.58,
+     "stddev_ts": 0.73,
+     "samples_ts": [
+      37.03,
+      37.08,
+      36.12,
+      36.26,
+      37.03
+     ]
+    },
+    {
+     "test": "tg128",
+     "avg_ts": 4.09,
+     "stddev_ts": 0.08,
+     "samples_ts": [
+      4.14,
+      4.07,
+      4.03,
+      4.06,
+      4.14
+     ]
+    }
+   ]
+  }
+ ],
+ "submitter": {
+  "github": null,
+  "notes": "SAMPLE DATA. Hand-made to demo the results page. These numbers were not measured on any device."
+ }
+}

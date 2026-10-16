@@ -1,0 +1,830 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/everyai-com/snapbench/schema/result-v1.schema.json",
+  "title": "snapbench result",
+  "description": "One snapbench run: the full benchmark matrix on one device. See schema/README.md for field meanings.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "provenance",
+    "created_at",
+    "tool",
+    "llama_cpp",
+    "platform",
+    "device",
+    "soc",
+    "cpu",
+    "gpu",
+    "vulkaninfo",
+    "backends",
+    "config",
+    "runs"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "provenance": {
+      "description": "measured = a real run on the device. sample = hand-made data for demos and tests, never real. dev = a run on a non-Snapdragon machine while developing snapbench.",
+      "enum": [
+        "measured",
+        "sample",
+        "dev"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "tool": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "matrix_version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "const": "snapbench"
+        },
+        "version": {
+          "type": "string"
+        },
+        "matrix_version": {
+          "type": "string"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "llama_cpp": {
+      "type": "object",
+      "required": [
+        "tag",
+        "commit",
+        "sources"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tag": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/source"
+          }
+        }
+      }
+    },
+    "platform": {
+      "type": "object",
+      "required": [
+        "os",
+        "arch"
+      ],
+      "properties": {
+        "os": {
+          "enum": [
+            "android",
+            "linux",
+            "windows",
+            "macos"
+          ]
+        },
+        "os_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "kernel": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "arch": {
+          "type": "string"
+        },
+        "termux": {
+          "type": "boolean"
+        },
+        "android_sdk": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "build": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "python": {
+          "type": "string"
+        }
+      }
+    },
+    "device": {
+      "type": "object",
+      "required": [
+        "manufacturer",
+        "model"
+      ],
+      "properties": {
+        "manufacturer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "codename": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "soc": {
+      "type": "object",
+      "required": [
+        "part",
+        "name",
+        "is_snapdragon"
+      ],
+      "properties": {
+        "part": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Part number, e.g. SM8650 or X1E78100."
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Marketing name, e.g. Snapdragon 8 Gen 3."
+        },
+        "codename": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "vendor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "family": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "is_snapdragon": {
+          "type": "boolean"
+        },
+        "hexagon_arch": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "cpu": {
+      "type": "object",
+      "required": [
+        "name",
+        "cores"
+      ],
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cores": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "clusters": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "required": [
+              "cpus",
+              "max_khz"
+            ],
+            "properties": {
+              "cpus": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "max_khz": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "governor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "gpu": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name_source": {
+          "type": "string"
+        },
+        "max_clock_mhz": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "driver_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "memory_mb": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "vulkaninfo": {
+      "type": "object",
+      "required": [
+        "available",
+        "gpus"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gpus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/vulkan_gpu"
+          }
+        }
+      }
+    },
+    "backends": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "cpu",
+          "opencl",
+          "vulkan",
+          "hexagon"
+        ]
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/backend"
+      }
+    },
+    "config": {
+      "type": "object",
+      "required": [
+        "n_prompt",
+        "n_gen",
+        "repetitions",
+        "threads",
+        "gpu_layers",
+        "cooldown_s"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "n_prompt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "n_gen": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "repetitions": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "threads": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "gpu_layers": {
+          "type": "integer"
+        },
+        "cooldown_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "timeout_s": {
+          "type": "integer"
+        },
+        "full_matrix": {
+          "type": "boolean",
+          "description": "True when every model, quant and backend in the matrix was attempted."
+        },
+        "env": {
+          "type": "object",
+          "description": "Environment variables that change driver or backend behaviour (VK_ICD_FILENAMES, TU_DEBUG, MESA_*, GGML_*), as set during the run.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/run"
+      }
+    },
+    "submitter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "github": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 2000
+        }
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "release",
+            "source",
+            "custom"
+          ]
+        },
+        "bundle": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "version": {
+              "type": "string"
+            },
+            "build_number": {
+              "type": "integer"
+            },
+            "commit": {
+              "type": "string"
+            },
+            "built_with": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "vulkan_gpu": {
+      "type": "object",
+      "required": [
+        "device_name",
+        "driver_id",
+        "driver_name",
+        "driver_kind",
+        "int_dot",
+        "cooperative_matrix",
+        "subgroup"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer"
+        },
+        "device_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "device_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "driver_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "driver_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "driver_info": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "driver_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "api_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "driver_kind": {
+          "enum": [
+            "qualcomm",
+            "turnip",
+            "dozen",
+            "other",
+            "unknown"
+          ]
+        },
+        "mesa_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "int_dot": {
+          "type": "object",
+          "properties": {
+            "shader_integer_dot_product": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "int8_packed_signed_accelerated": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "int8_packed_unsigned_accelerated": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "int8_packed_mixed_accelerated": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        },
+        "cooperative_matrix": {
+          "type": "object",
+          "properties": {
+            "extension": {
+              "type": "boolean"
+            },
+            "feature": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        },
+        "subgroup": {
+          "type": "object",
+          "properties": {
+            "size": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "min": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "max": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "size_control": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "backend": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "ok",
+            "unavailable",
+            "failed",
+            "skipped"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "device": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "llama-bench -dev value; 'none' for CPU."
+        },
+        "devices": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "probe": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "error": {
+              "type": "string"
+            },
+            "log": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "info": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "properties": {
+        "max_temp_c": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "zones_c": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "gpu_clock_mhz": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "cpu_freq_khz": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "battery": {
+          "type": "object"
+        }
+      }
+    },
+    "run": {
+      "type": "object",
+      "required": [
+        "backend",
+        "model",
+        "quant",
+        "status",
+        "tests"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "backend": {
+          "enum": [
+            "cpu",
+            "opencl",
+            "vulkan",
+            "hexagon"
+          ]
+        },
+        "model": {
+          "type": "string"
+        },
+        "quant": {
+          "type": "string"
+        },
+        "model_file": {
+          "type": "string"
+        },
+        "model_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "partial",
+            "failed"
+          ]
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stderr_tail": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "duration_s": {
+          "type": "number"
+        },
+        "before": {
+          "$ref": "#/$defs/snapshot"
+        },
+        "after": {
+          "$ref": "#/$defs/snapshot"
+        },
+        "tests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "test",
+              "avg_ts",
+              "stddev_ts"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "test": {
+                "type": "string",
+                "pattern": "^(pp\\d+|tg\\d+|pp\\d+\\+tg\\d+)(@d\\d+)?$"
+              },
+              "avg_ts": {
+                "type": "number",
+                "minimum": 0
+              },
+              "stddev_ts": {
+                "type": "number",
+                "minimum": 0
+              },
+              "samples_ts": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "llama_bench": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m unittest discover -s tests -v
+      - name: Cross-check the schema with the reference validator
+        run: pip install jsonschema && python -m unittest tests.test_snapbench.Schema -v
+      - name: Validate every result
+        run: |
+          files=$(find results -name '*.json' | sort)
+          if [ -n "$files" ]; then python -m snapbench validate --accept $files; else echo "no results yet"; fi
+      - run: python -m snapbench build-site --samples

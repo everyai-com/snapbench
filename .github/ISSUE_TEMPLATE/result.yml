@@ -1,0 +1,37 @@
+name: Submit a result
+description: Add a snapbench run when you can't open a pull request with `snapbench submit`.
+title: "Result: "
+labels: [result]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for running snapbench. Attach the JSON file it wrote (drag it into the box below; if GitHub
+        refuses `.json`, rename it to `.txt`), or paste a link to a gist with its contents.
+        Results are published under CC0 1.0.
+  - type: textarea
+    id: file
+    attributes:
+      label: Result file
+      description: The snapbench-....json file, attached, or a gist link.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      placeholder: e.g. Samsung Galaxy S24 (SM8650), Lenovo ThinkPad T14s Gen 6 (X1E78100)
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything unusual?
+      description: Custom driver (which Mesa build?), cooling, power mode, errors you saw.
+  - type: checkboxes
+    id: license
+    attributes:
+      label: License
+      options:
+        - label: I release this result under CC0 1.0 and it is a real run on my device.
+          required: true
