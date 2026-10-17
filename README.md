@@ -153,6 +153,21 @@ python3 -m snapbench build-site --samples
 python3 -m http.server --directory site 8000
 ```
 
+## Related projects
+
+A small set of open tools for Qualcomm Adreno GPUs, built to work together:
+
+| Project | What it does |
+| --- | --- |
+| [drivermatch](https://github.com/everyai-com/drivermatch) | Picks the right community Turnip driver and settings for your GPU and game, and turns GPU crashes into plain-language fixes. [Live hub](https://drivermatch.everyai-com.workers.dev) |
+| [snapbench](https://github.com/everyai-com/snapbench) | Reproducible llama.cpp benchmarks on Snapdragon: CPU vs OpenCL vs Vulkan (Qualcomm and Turnip) vs Hexagon. [Results](https://everyai-com.github.io/snapbench/) |
+| [turnip-signed-dot4](https://github.com/everyai-com/turnip-signed-dot4) | Mesa patch and test kit that makes Turnip report signed int8 dot product as accelerated, turning on llama.cpp's int8 path on Adreno. Not yet submitted upstream. |
+| [everyai-com/mesa](https://github.com/everyai-com/mesa) | Mesa fork carrying that patch (`turnip-signed-dot4` branch, plus a 26.2.5 backport). |
+
+How they fit: the Turnip patch makes the driver faster for AI, snapbench
+measures the difference on real devices, and drivermatch tells players which
+driver build to install for each game.
+
 ## Licenses
 
 - Code: MIT, see [LICENSE](LICENSE).
